@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pharmacy Store</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine.js for dropdown behavior -->
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- Inter font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f7fafc;
+      }
+
+      @keyframes marquee {
+        0% {
+          transform: translateX(100%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      .animate-marquee {
+        animation: marquee 2s linear infinite;
+        display: inline-block;
+      }
+
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
+
+      #typewriter::after {
+        content: "";
+        display: inline-block;
+        width: 1ch;
+        height: 1em;
+        vertical-align: bottom;
+        border-right: 2px solid green;
+        animation: blink 0.7s infinite;
+        margin-left: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="min-h-screen flex flex-col">
+      <!-- Header -->
+      <header class="bg-white shadow-md py-4 px-4 md:px-8">
+        <div
+          class="max-w-8xl mx-auto flex items-center justify-between space-x-6"
+        >
+          <!-- Logo -->
+          <a href="#" class="flex items-center space-x-2 shrink-0">
+            <img src="logo.png" alt="Pharmacy Logo" class="h-10 w-auto" />
+          </a>
+
+          <!-- Sliding shop name -->
+          <div class="hidden md:block flex-grow overflow-hidden relative">
+            <div
+              id="typewriter"
+              class="text-green-600 font-bold text-lg select-none whitespace-nowrap"
+            ></div>
+          </div>
+
+          <!-- Search -->
+          <div
+            class="flex-shrink-0 w-full mx-4"
+            style="min-width: 0; max-width: 650px"
+          >
+            <div class="relative flex items-center">
+              <input
+                type="text"
+                placeholder="Search for medicine, brands..."
+                class="w-full py-2 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 pr-10 bg-gray-100"
+              />
+              <button
+                class="absolute right-0 top-0 mt-2 mr-3 text-gray-500"
+                aria-label="Search"
+              >
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right-side Icons -->
+          <nav class="flex items-center space-x-8 shrink-0">
+            <!-- Account Dropdown -->
+            <div
+              x-data="{ open: false }"
+              class="relative"
+              @keydown.escape="open = false"
+            >
+              <div
+                @click="open = !open"
+                :class="[
+                  'flex items-center gap-3 px-4 py-2 rounded-full cursor-pointer transition border',
+                  open
+                    ? 'bg-white border-green-500 ring-2 ring-green-400'
+                    : 'bg-gray-100 border-transparent hover:bg-gray-200',
+                ]"
+              >
+                <div
+                  class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-blue-900 flex items-center justify-center text-white"
+                >
+                  <i class="fas fa-user"></i>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-semibold text-sm">Elena M.</span>
+                  <span class="text-green-500 text-xs font-medium">Online</span>
+                </div>
+                <i
+                  class="fas fa-chevron-down text-gray-500 transition duration-300"
+                  :class="{ 'rotate-180': open }"
+                ></i>
+              </div>
+
+              <!-- Dropdown Menu -->
+              <div
+                x-show="open"
+                @click.away="open = false"
+                x-transition
+                class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg z-50"
+              >
+                <ul class="py-2 text-sm text-gray-700">
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                  >
+                    <i class="fas fa-user-circle"></i> My Profile
+                  </li>
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                  >
+                    <i class="fas fa-cog"></i> Account Settings
+                  </li>
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                  >
+                    <i class="fas fa-bell"></i> Notifications
+                  </li>
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                  >
+                    <i class="fas fa-credit-card"></i> Billing
+                  </li>
+                  <hr class="my-2 border-t" />
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                  >
+                    <i class="fas fa-globe"></i> Language: English
+                  </li>
+                  <hr class="my-2 border-t" />
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                  >
+                    <i class="fas fa-sign-out-alt"></i> Sign Out
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="h-6 border-l border-black"></div>
+
+            <!-- Cart -->
+            <a href="#" class="text-gray-700 hover:text-green-600 rounded-lg">
+              <i class="fas fa-shopping-cart text-2xl"></i>
+            </a>
+
+            <!-- Divider -->
+            <div class="h-6 border-l border-black"></div>
+
+            <!-- Wishlist -->
+            <a href="#" class="text-gray-700 hover:text-green-600 rounded-lg">
+              <i class="fas fa-heart text-2xl"></i>
+            </a>
+          </nav>
+        </div>
+
+        <!-- Mobile Categories -->
+        <div class="md:hidden mt-4 text-center">
+          <a href="#" class="text-gray-700 hover:text-green-600 mx-2 rounded-lg"
+            >All Categories</a
+          >
+        </div>
+      </header>
+
+      <!-- Page content -->
+      <main class="flex-grow"></main>
+    </div>
+  </body>
+</html>
+<script>
+  const text = "Shwe Owe Pharmacy Shop And Delivery";
+  const typewriterEl = document.getElementById("typewriter");
+
+  let index = 0;
+  function type() {
+    if (index <= text.length) {
+      typewriterEl.textContent = text.substring(0, index);
+      index++;
+      setTimeout(type, 150);
+    } else {
+      // optional: pause, then restart
+      setTimeout(() => {
+        index = 0;
+        type();
+      }, 2000);
+    }
+  }
+
+  type();
+</script>

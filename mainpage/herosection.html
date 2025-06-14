@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pharmacy Store</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine.js for dropdown behavior -->
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- Inter font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f7fafc;
+      }
+
+      @keyframes marquee {
+        0% {
+          transform: translateX(100%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      .animate-marquee {
+        animation: marquee 2s linear infinite;
+        display: inline-block;
+      }
+
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(to top right, #e0f2f7, #a7d9ee);
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Elements -->
+    <div class="absolute inset-0 pointer-events-none z-0">
+      <!-- Hexagons -->
+      <svg
+        class="absolute opacity-20 fill-[#90caf9] w-[150px] h-[150px] top-[15%] left-[20%]"
+        viewBox="0 0 100 86.6"
+        aria-hidden="true"
+      >
+        <polygon points="50,0 100,25 100,75 50,100 0,75 0,25" />
+      </svg>
+
+      <svg
+        class="absolute opacity-20 fill-[#90caf9] w-[180px] h-[180px] bottom-[10%] right-[25%]"
+        viewBox="0 0 100 86.6"
+        aria-hidden="true"
+      >
+        <polygon points="50,0 100,25 100,75 50,100 0,75 0,25" />
+      </svg>
+
+      <svg
+        class="absolute opacity-20 fill-[#90caf9] w-[100px] h-[100px] top-[60%] left-[10%]"
+        viewBox="0 0 100 86.6"
+        aria-hidden="true"
+      >
+        <polygon points="50,0 100,25 100,75 50,100 0,75 0,25" />
+      </svg>
+
+      <!-- Molecular Nodes -->
+      <div
+        class="absolute opacity-15 bg-[#64b5f6] rounded-full w-10 h-10 top-1/4 left-1/4"
+      ></div>
+      <div
+        class="absolute opacity-15 bg-[#64b5f6] rounded-full w-8 h-8 top-1/3 left-1/2"
+      ></div>
+      <div
+        class="absolute opacity-15 bg-[#64b5f6] rounded-full w-12 h-12 bottom-1/4 right-1/4"
+      ></div>
+
+      <!-- Molecular Lines -->
+      <div
+        class="absolute opacity-10 bg-[#42a5f5] w-px h-16 origin-top-left rotate-45 top-[27%] left-[26%]"
+      ></div>
+      <div
+        class="absolute opacity-10 bg-[#42a5f5] w-px h-20 origin-top-left rotate-[120deg] top-[36%] left-[51%]"
+      ></div>
+      <div
+        class="absolute opacity-10 bg-[#42a5f5] w-px h-24 origin-top-left rotate-[300deg] bottom-[26%] right-[26%]"
+      ></div>
+    </div>
+
+    <!-- Hero Slider Section -->
+    <section
+      id="hero-slider-section"
+      class="relative w-screen h-[500px] z-10 select-none"
+      tabindex="0"
+    >
+      <!-- Removed background color for the slider area as images will now cover it fully -->
+      <div id="image-slider" class="relative w-full h-full overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1729704166657-9a5744b7200c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHphcm1hY2V1dGljYSUyMHBob3RvfGVufDB8fDB8fHww"
+          alt="Turquoise Capsule 1"
+          class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out slider-image"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1616526629520-109a2e4c813f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHphcm1hY2V1dGljYSUyMHBob3RvfGVufDB8fDB8fHww"
+          alt="Medical Pills 2"
+          class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out slider-image"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1729704051357-763217c6fb42?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHphcm1hY2V1dGljYSUyMHBob3RvfGVufDB8fDB8fHww"
+          alt="Blue Capsules 3"
+          class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out slider-image"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1666025067647-da80f0385da4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHphcm1hY2V1dGljYSUyMHBob3RvfGVufDB8fDB8fHww"
+          alt="Assorted Pills 4"
+          class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out slider-image"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1727968377196-7ff608cfc7d0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fHphcm1hY2V1dGljYSUyMHBob3RvfGVufDB8fDB8fHww"
+          alt="Pill Bottles 5"
+          class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out slider-image"
+        />
+      </div>
+
+      <!-- Left Arrow -->
+      <button
+        id="prev-btn"
+        aria-label="Previous slide"
+        class="absolute top-1/2 left-6 -translate-y-1/2 bg-white bg-opacity-30 hover:bg-opacity-70 text-gray-700 hover:text-gray-900 rounded-full p-3 shadow-md transition"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+
+      <!-- Right Arrow -->
+      <button
+        id="next-btn"
+        aria-label="Next slide"
+        class="absolute top-1/2 right-6 -translate-y-1/2 bg-white bg-opacity-30 hover:bg-opacity-70 text-gray-700 hover:text-gray-900 rounded-full p-3 shadow-md transition"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </button>
+
+      <!-- Text Overlay -->
+      <div class="absolute bottom-24 left-0 right-0 text-center px-4 z-20">
+        <p
+          class="text-white text-3xl md:text-5xl lg:text-6xl font-bold leading-tight drop-shadow-lg"
+        >
+          Innovating for a healthier tomorrow.
+        </p>
+      </div>
+
+      <!-- Slider Dots -->
+      <div
+        id="slider-dots"
+        class="absolute bottom-8 left-0 right-0 flex justify-center space-x-3 z-20"
+      ></div>
+    </section>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const images = document.querySelectorAll(".slider-image");
+        const dotsContainer = document.getElementById("slider-dots");
+        const prevBtn = document.getElementById("prev-btn");
+        const nextBtn = document.getElementById("next-btn");
+        let currentIndex = 0;
+        const slideInterval = 4000;
+        let autoSlide;
+
+        // Create dots dynamically
+        images.forEach((_, index) => {
+          const dot = document.createElement("div");
+          dot.classList.add(
+            "w-4",
+            "h-4",
+            "rounded-full",
+            "shadow-md",
+            "cursor-pointer",
+            "hover:scale-110",
+            "transition-transform",
+            "duration-200",
+            "bg-white"
+          );
+          dot.dataset.index = index;
+          dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll("#slider-dots div");
+
+        function showSlide(index) {
+          images.forEach((img) => img.classList.remove("opacity-100"));
+          images.forEach((img) => img.classList.add("opacity-0"));
+
+          dots.forEach((dot) => {
+            dot.classList.remove("bg-yellow-400");
+            dot.classList.add("bg-white");
+          });
+
+          images[index].classList.remove("opacity-0");
+          images[index].classList.add("opacity-100");
+
+          dots[index].classList.remove("bg-white");
+          dots[index].classList.add("bg-yellow-400");
+
+          currentIndex = index;
+        }
+
+        function nextSlideFunc() {
+          currentIndex = (currentIndex + 1) % images.length;
+          showSlide(currentIndex);
+        }
+
+        function prevSlideFunc() {
+          currentIndex = (currentIndex - 1 + images.length) % images.length;
+          showSlide(currentIndex);
+        }
+
+        function resetAutoSlide() {
+          clearInterval(autoSlide);
+          autoSlide = setInterval(nextSlideFunc, slideInterval);
+        }
+
+        // Initial slide
+        showSlide(currentIndex);
+
+        // Auto slide
+        autoSlide = setInterval(nextSlideFunc, slideInterval);
+
+        // Dot click event
+        dots.forEach((dot) => {
+          dot.addEventListener("click", (e) => {
+            resetAutoSlide();
+            showSlide(parseInt(e.target.dataset.index));
+          });
+        });
+
+        // Buttons click events
+        prevBtn.addEventListener("click", () => {
+          resetAutoSlide();
+          prevSlideFunc();
+        });
+
+        nextBtn.addEventListener("click", () => {
+          resetAutoSlide();
+          nextSlideFunc();
+        });
+
+        // Keyboard arrow key navigation
+        document
+          .getElementById("hero-slider-section")
+          .addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft") {
+              e.preventDefault();
+              resetAutoSlide();
+              prevSlideFunc();
+            } else if (e.key === "ArrowRight") {
+              e.preventDefault();
+              resetAutoSlide();
+              nextSlideFunc();
+            }
+          });
+      });
+    </script>
+
+    <!-- Page content -->
+    <main class="flex-grow"></main>
+  </body>
+</html>

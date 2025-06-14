@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pharmacy Store</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!-- Inter font from Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f7fafc; /* Light gray background */
+      }
+      .hero-section {
+        background-image: url("https://placehold.co/1920x600/b2e8e0/000000?text=Pharmacy+Banner"); /* Placeholder for hero image */
+        background-size: cover;
+        background-position: center;
+      }
+      .product-card {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+      }
+      .shop-the-look-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 1rem;
+        height: 400px; /* Fixed height for the grid */
+        position: relative;
+      }
+      .shop-the-look-item {
+        background-size: cover;
+        background-position: center;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .shop-the-look-item:nth-child(1) {
+        grid-column: 1 / 2;
+        grid-row: 1 / 3;
+        background-image: url("https://placehold.co/600x400/c7ecee/000000?text=Pharmacy+Interior+1");
+      }
+      .shop-the-look-item:nth-child(2) {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        background-image: url("https://placehold.co/600x200/a2d9e6/000000?text=Pharmacist+Checking");
+      }
+      .shop-the-look-item:nth-child(3) {
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+        background-image: url("https://placehold.co/600x200/87d6d6/000000?text=Customer+Shopping");
+      }
+      .shop-the-look-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 2rem 4rem;
+        border-radius: 9999px; /* Full rounded circle */
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        font-size: 1.875rem; /* text-3xl */
+        font-weight: 600; /* font-semibold */
+        color: #333;
+        text-align: center;
+        z-index: 10;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="min-h-screen flex flex-col">
+      <!-- Top Bar -->
+      <!-- <div class="bg-gray-800 text-white text-sm py-2 px-4 md:px-8">
+        <div class="max-w-7xl mx-auto flex justify-around items-center">
+          <span class="hidden sm:block"
+            ><i class="fas fa-truck mr-2"></i>FREE DELIVERY FROM $250</span
+          >
+          <span class="hidden sm:block"
+            ><i class="fas fa-tools mr-2"></i>FREE INSTALLATION</span
+          >
+          <span class="hidden sm:block"
+            ><i class="fas fa-truck mr-2"></i>FREE DELIVERY FROM $250</span
+          >
+        </div>
+      </div> -->
+
+      <!-- Header/Navigation -->
+      <header class="bg-white shadow-md py-4 px-4 md:px-8">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+          <!-- Logo -->
+          <a href="#" class="flex items-center space-x-2">
+            <img src="logo.png" alt="Pharmacy Logo" class="h-10 w-auto" />
+            <span class="text-green-600 font-bold text-lg">
+              Shwe Owe Pharmacy
+            </span>
+          </a>
+
+          <!-- Search Bar -->
+          <div class="flex-grow mx-4 max-w-xl">
+            <div class="relative flex items-center">
+              <input
+                type="text"
+                placeholder="Search for medicine, brands..."
+                class="w-full py-2 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 pr-10 bg-gray-100"
+              />
+              <button class="absolute right-0 top-0 mt-2 mr-3 text-gray-500">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Account/Cart/Wishlist Icons -->
+          <nav class="flex items-center space-x-6">
+            <!-- Account Dropdown -->
+            <div class="relative group">
+              <div
+                class="flex items-center text-gray-700 hover:text-green-600 cursor-pointer space-x-1"
+              >
+                <i class="fas fa-user-circle text-2xl"></i>
+                <span class="hidden sm:block">Elena M.</span>
+                <i class="fas fa-chevron-down text-xs"></i>
+              </div>
+
+              <!-- Dropdown -->
+              <div
+                class="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-lg hidden group-hover:block z-50"
+              >
+                <ul class="py-2 text-sm text-gray-700">
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center space-x-2"
+                  >
+                    <i class="fas fa-user-circle w-4"></i
+                    ><span>My Profile</span>
+                  </li>
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center space-x-2"
+                  >
+                    <i class="fas fa-cog w-4"></i><span>Account Settings</span>
+                  </li>
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center space-x-2"
+                  >
+                    <i class="fas fa-bell w-4"></i><span>Notifications</span>
+                  </li>
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center space-x-2"
+                  >
+                    <i class="fas fa-credit-card w-4"></i><span>Billing</span>
+                  </li>
+                  <hr class="my-2" />
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center space-x-2"
+                  >
+                    <i class="fas fa-globe w-4"></i
+                    ><span>Language: English</span>
+                  </li>
+                  <hr class="my-2" />
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 text-red-600 flex items-center space-x-2"
+                  >
+                    <i class="fas fa-sign-out-alt w-4"></i><span>Sign Out</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Vertical Separator -->
+            <div class="h-8 border-l border-gray-300"></div>
+
+            <!-- Cart -->
+            <a href="#" class="text-gray-700 hover:text-green-600 rounded-lg">
+              <i class="fas fa-shopping-cart text-2xl"></i>
+            </a>
+
+            <!-- Vertical Separator -->
+            <div class="h-8 border-l border-gray-300"></div>
+
+            <!-- Wishlist -->
+            <a href="#" class="text-gray-700 hover:text-green-600 rounded-lg">
+              <i class="fas fa-heart text-2xl"></i>
+            </a>
+          </nav>
+        </div>
+
+        <!-- Mobile Categories -->
+        <div class="md:hidden mt-4 text-center">
+          <a
+            href="#"
+            class="text-gray-700 hover:text-green-600 mx-2 rounded-lg"
+          >
+            All Categories
+          </a>
+          <!-- Add more categories here -->
+        </div>
+      </header>
+
+      <!-- Hero Section -->
+      <section
+        class="hero-section relative h-64 md:h-96 flex items-end justify-center py-8 rounded-lg"
+      >
+        <!-- Overlay for text if needed, or just background image -->
+        <div class="absolute inset-0 bg-black opacity-20 rounded-lg"></div>
+        <!-- Pagination dots -->
+        <div class="absolute bottom-4 flex space-x-2">
+          <span
+            class="block w-3 h-3 bg-white rounded-full opacity-75 cursor-pointer border border-gray-400"
+          ></span>
+          <span
+            class="block w-3 h-3 bg-gray-400 rounded-full cursor-pointer border border-gray-400"
+          ></span>
+          <span
+            class="block w-3 h-3 bg-gray-400 rounded-full cursor-pointer border border-gray-400"
+          ></span>
+        </div>
+      </section>
+
+      <!-- Main Content Area -->
+      <main
+        class="flex-grow max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8"
+      >
+        <!-- Left Sidebar (Filters) -->
+        <aside class="lg:col-span-1 bg-white p-6 rounded-lg shadow-md h-fit">
+          <h2 class="text-xl font-semibold mb-4 text-gray-800">
+            All Categories
+          </h2>
+          <div class="space-y-2 mb-6">
+            <label class="flex items-center text-gray-700">
+              <input
+                type="checkbox"
+                class="form-checkbox text-green-500 rounded-lg mr-2"
+              />
+              Tablets
+            </label>
+            <label class="flex items-center text-gray-700">
+              <input
+                type="checkbox"
+                class="form-checkbox text-green-500 rounded-lg mr-2"
+              />
+              Syrups
+            </label>
+            <label class="flex items-center text-gray-700">
+              <input
+                type="checkbox"
+                class="form-checkbox text-green-500 rounded-lg mr-2"
+              />
+              Injections
+            </label>
+            <label class="flex items-center text-gray-700">
+              <input
+                type="checkbox"
+                class="form-checkbox text-green-500 rounded-lg mr-2"
+              />
+              Ointments
+            </label>
+            <!-- More categories -->
+          </div>
+
+          <h3 class="text-lg font-medium mb-3 text-gray-800">Price</h3>
+          <div class="flex items-center space-x-2 mb-6">
+            <input
+              type="number"
+              placeholder="Min"
+              class="w-1/2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500"
+            />
+            <span class="text-gray-500">-</span>
+            <input
+              type="number"
+              placeholder="Max"
+              class="w-1/2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500"
+            />
+          </div>
+          <button
+            class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition duration-300 rounded-lg"
+          >
+            Apply
+          </button>
+        </aside>
+
+        <!-- Right Content (Product Grid) -->
+        <section class="lg:col-span-3">
+          <div
+            class="mb-8 p-6 bg-white rounded-lg shadow-md flex items-center justify-between"
+          >
+            <h2 class="text-2xl font-semibold text-gray-800">Best Sellers</h2>
+            <a
+              href="#"
+              class="text-green-600 hover:underline font-medium rounded-lg"
+              >VIEW ALL PRODUCT</a
+            >
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <!-- Product Card 1 -->
+            <div
+              class="product-card bg-white p-4 rounded-lg flex flex-col items-center text-center"
+            >
+              <img
+                src="https://placehold.co/200x200/f0f0f0/000000?text=Product+Image"
+                alt="Product Name"
+                class="w-48 h-48 object-cover mb-4 rounded-lg"
+              />
+              <h3 class="font-medium text-lg mb-1 text-gray-800">
+                Product Name
+              </h3>
+              <p class="text-gray-600 mb-2">$19.99</p>
+              <div class="flex text-yellow-400 mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+              <button
+                class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 rounded-lg"
+              >
+                Add to Cart
+              </button>
+            </div>
+
+            <!-- Product Card 2 -->
+            <div
+              class="product-card bg-white p-4 rounded-lg flex flex-col items-center text-center"
+            >
+              <img
+                src="https://placehold.co/200x200/e0e0e0/000000?text=Product+Image+2"
+                alt="Product Name"
+                class="w-48 h-48 object-cover mb-4 rounded-lg"
+              />
+              <h3 class="font-medium text-lg mb-1 text-gray-800">
+                Product Name
+              </h3>
+              <p class="text-gray-600 mb-2">$24.50</p>
+              <div class="flex text-yellow-400 mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <button
+                class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 rounded-lg"
+              >
+                Add to Cart
+              </button>
+            </div>
+
+            <!-- Product Card 3 -->
+            <div
+              class="product-card bg-white p-4 rounded-lg flex flex-col items-center text-center"
+            >
+              <img
+                src="https://placehold.co/200x200/d0d0d0/000000?text=Product+Image+3"
+                alt="Product Name"
+                class="w-48 h-48 object-cover mb-4 rounded-lg"
+              />
+              <h3 class="font-medium text-lg mb-1 text-gray-800">
+                Product Name
+              </h3>
+              <p class="text-gray-600 mb-2">$12.75</p>
+              <div class="flex text-yellow-400 mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <button
+                class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 rounded-lg"
+              >
+                Add to Cart
+              </button>
+            </div>
+
+            <!-- Repeat product cards as needed -->
+            <div
+              class="product-card bg-white p-4 rounded-lg flex flex-col items-center text-center"
+            >
+              <img
+                src="https://placehold.co/200x200/c0c0c0/000000?text=Product+Image+4"
+                alt="Product Name"
+                class="w-48 h-48 object-cover mb-4 rounded-lg"
+              />
+              <h3 class="font-medium text-lg mb-1 text-gray-800">
+                Product Name
+              </h3>
+              <p class="text-gray-600 mb-2">$30.00</p>
+              <div class="flex text-yellow-400 mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <button
+                class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 rounded-lg"
+              >
+                Add to Cart
+              </button>
+            </div>
+
+            <!-- Product Card 5 -->
+            <div
+              class="product-card bg-white p-4 rounded-lg flex flex-col items-center text-center"
+            >
+              <img
+                src="https://placehold.co/200x200/b0b0b0/000000?text=Product+Image+5"
+                alt="Product Name"
+                class="w-48 h-48 object-cover mb-4 rounded-lg"
+              />
+              <h3 class="font-medium text-lg mb-1 text-gray-800">
+                Product Name
+              </h3>
+              <p class="text-gray-600 mb-2">$9.99</p>
+              <div class="flex text-yellow-400 mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <button
+                class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 rounded-lg"
+              >
+                Add to Cart
+              </button>
+            </div>
+
+            <!-- Product Card 6 -->
+            <div
+              class="product-card bg-white p-4 rounded-lg flex flex-col items-center text-center"
+            >
+              <img
+                src="https://placehold.co/200x200/a0a0a0/000000?text=Product+Image+6"
+                alt="Product Name"
+                class="w-48 h-48 object-cover mb-4 rounded-lg"
+              />
+              <h3 class="font-medium text-lg mb-1 text-gray-800">
+                Product Name
+              </h3>
+              <p class="text-gray-600 mb-2">$45.00</p>
+              <div class="flex text-yellow-400 mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+              <button
+                class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 rounded-lg"
+              >
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Shop the Look Section -->
+      <section class="max-w-7xl mx-auto px-4 py-12">
+        <div class="relative shop-the-look-grid">
+          <div class="shop-the-look-item"></div>
+          <div class="shop-the-look-item"></div>
+          <div class="shop-the-look-item"></div>
+          <div class="shop-the-look-overlay">SHOP THE LOOK</div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer
+        class="bg-gray-900 text-gray-300 py-10 px-4 md:px-8 mt-auto rounded-lg"
+      >
+        <div
+          class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+        >
+          <!-- Pharmacy Store Info -->
+          <div>
+            <h3 class="text-white text-xl font-semibold mb-4">
+              PHARMACY STORE
+            </h3>
+            <p class="text-sm leading-relaxed mb-4">
+              "Your trusted health partner, caring for your well-being one
+              prescription at a time."
+            </p>
+            <ul class="space-y-2 text-sm">
+              <li>
+                <a href="#" class="hover:text-white rounded-lg">About Us</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white rounded-lg"
+                  >Reason to Shop</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white rounded-lg"
+                  >What our customers say</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white rounded-lg"
+                  >Meet the team!</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white rounded-lg"
+                  >Contact Our Buyers</a
+                >
+              </li>
+            </ul>
+            <div class="flex items-center mt-4 space-x-4">
+              <img
+                src="https://placehold.co/80x30/4a4a4a/ffffff?text=TRUSTED"
+                alt="Trusted"
+                class="rounded-lg"
+              />
+              <img
+                src="https://placehold.co/80x30/4a4a4a/ffffff?text=Norton"
+                alt="Norton"
+                class="rounded-lg"
+              />
+            </div>
+          </div>
+
+          <!-- Contact Us -->
+          <div>
+            <h3 class="text-white text-xl font-semibold mb-4">Contact Us</h3>
+            <div class="space-y-3 text-sm">
+              <p>
+                <i class="fas fa-map-marker-alt mr-2 text-green-500"></i
+                >Address:
+              </p>
+              <p class="ml-6">
+                No-9, Mahar Bogs Street, Hlidam, Kamayut Township, Yangon
+              </p>
+              <p>
+                <i class="fas fa-envelope mr-2 text-green-500"></i>Email:
+                <br /><span class="ml-6">thuansingen1890000@gmail.com</span>
+              </p>
+              <p>
+                <i class="fas fa-phone-alt mr-2 text-green-500"></i>Hotline:
+                <br /><span class="ml-6">+959687502811</span>
+              </p>
+              <p>
+                <i class="fas fa-clock mr-2 text-green-500"></i>Opening Hours:
+                <br /><span class="ml-6"
+                  >Monday - Sunday / 08:00 AM - 19:00 (Except Holidays)</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <!-- Newsletter -->
+          <div>
+            <h3 class="text-white text-xl font-semibold mb-4">Newsletter</h3>
+            <p class="text-sm mb-4">
+              Sign up to our newsletter to get the latest articles, vouchers,
+              and codes direct to your inbox.
+            </p>
+            <div class="flex">
+              <input
+                type="email"
+                placeholder="Enter your Email"
+                class="p-2 flex-grow rounded-l-lg border border-gray-700 bg-gray-800 text-white focus:outline-none focus:ring-1 focus:ring-green-500"
+              />
+              <button
+                class="bg-green-600 text-white px-4 py-2 rounded-r-lg hover:bg-green-700 transition duration-300 rounded-lg"
+              >
+                SUBSCRIBE
+              </button>
+            </div>
+            <h3 class="text-white text-xl font-semibold mb-4 mt-6">
+              Follow us on
+            </h3>
+            <div class="flex space-x-4 text-2xl">
+              <a href="#" class="hover:text-white rounded-lg"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a href="#" class="hover:text-white rounded-lg"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="hover:text-white rounded-lg"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" class="hover:text-white rounded-lg"
+                ><i class="fab fa-youtube"></i
+              ></a>
+            </div>
+            <h3 class="text-white text-xl font-semibold mb-4 mt-6">
+              PAYMENT ACCEPT
+            </h3>
+            <div class="flex space-x-4">
+              <img
+                src="https://placehold.co/60x40/4a4a4a/ffffff?text=VISA"
+                alt="Visa"
+                class="rounded-lg"
+              />
+              <img
+                src="https://placehold.co/60x40/4a4a4a/ffffff?text=MASTER"
+                alt="Mastercard"
+                class="rounded-lg"
+              />
+              <img
+                src="https://placehold.co/60x40/4a4a4a/ffffff?text=PAYPAL"
+                alt="PayPal"
+                class="rounded-lg"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- Bottom Footer Bar -->
+        <div
+          class="mt-8 pt-6 border-t border-gray-700 text-center text-lg font-semibold text-white"
+        >
+          Health . Trust . Care
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

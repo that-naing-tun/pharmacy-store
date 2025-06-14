@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pharmacy Store Product Listing</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- Inter font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(to top right, #e0f2f7, #a7d9ee);
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden; /* Prevent horizontal scroll */
+      }
+
+      /* Custom styles for star rating */
+      .star-rating .fas.fa-star {
+        color: #ffc107; /* Gold color for filled stars */
+      }
+      .star-rating .far.fa-star {
+        color: #e0e0e0; /* Light gray for empty stars */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="min-h-screen flex flex-col">
+      <!-- Header Placeholder (from previous design, can be integrated if needed) -->
+      <!-- For this design, we focus on the product listing section only. -->
+      <!-- If you need the full header from the previous version, please let me know! -->
+
+      <!-- Main Content Area -->
+      <main
+        class="flex-grow flex flex-col lg:flex-row px-4 md:px-8 py-8 relative z-10"
+      >
+        <!-- Background Elements (Pill Beads) - REMOVED as per request -->
+        <!-- The decorative pill images have been removed from this section. -->
+
+        <!-- Left Sidebar -->
+        <aside
+          class="w-full lg:w-1/4 bg-white p-6 rounded-2xl shadow-lg lg:mr-8 mb-8 lg:mb-0"
+        >
+          <h2
+            class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200"
+          >
+            All Categories
+          </h2>
+          <ul class="space-y-3 mb-6 text-gray-700">
+            <!-- Added transition and hover:translate-x-2 for doctor names -->
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> DR.DAREN
+              BODE II
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> DR.LETA
+              FAHEY
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> KILYEY
+              SAUER
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> MR.JARRETT
+              SPENCER
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> SCOTTIE
+              RYAN
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> THERRY
+              WOLLF
+            </li>
+          </ul>
+
+          <h2
+            class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200 mt-6"
+          >
+            Price
+          </h2>
+          <div class="flex items-center space-x-3 mb-6">
+            <span class="text-gray-700 font-medium">Min:</span>
+            <input
+              type="number"
+              placeholder="Min"
+              class="w-24 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+            />
+            <span class="text-gray-700 font-medium">Max:</span>
+            <input
+              type="number"
+              placeholder="Max"
+              class="w-24 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+            />
+          </div>
+          <button
+            class="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300 shadow-md"
+          >
+            Apply
+          </button>
+
+          <h2
+            class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200 mt-6"
+          >
+            Types
+          </h2>
+          <ul class="space-y-3 text-gray-700">
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> Decogen
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> Pacagen
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> PharmaGen
+            </li>
+            <!-- Add more types as needed -->
+          </ul>
+        </aside>
+
+        <!-- Product Listing Area -->
+        <section class="flex-grow bg-white p-6 rounded-2xl shadow-lg">
+          <!-- Category Tabs - Colors updated -->
+          <div class="flex flex-wrap gap-3 mb-6">
+            <button
+              class="px-6 py-2 rounded-full bg-blue-600 text-white font-semibold shadow-md hover:bg-blue-700 transition"
+            >
+              All
+            </button>
+            <button
+              class="px-6 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition"
+            >
+              New Arrival
+            </button>
+            <button
+              class="px-6 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition"
+            >
+              Best Seller
+            </button>
+            <button
+              class="px-6 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition"
+            >
+              Promotions
+            </button>
+            <button
+              class="px-6 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition"
+            >
+              Featured Product
+            </button>
+          </div>
+
+          <!-- Product Grid -->
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+          >
+            <!-- Product Card Example (repeat as needed) -->
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2016/02/07/16/35/world-1185076_1280.png"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/F44336/FFFFFF?text=Pills';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <!-- Empty star -->
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Repeat for other product cards (11 more times based on image) -->
+            <!-- You can dynamically generate these with JavaScript in a real application -->
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2016/04/14/12/17/diet-pills-1328802_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/2196F3/FFFFFF?text=Tablets';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2016/07/24/21/01/thermometer-1539191_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/FFEB3B/333333?text=Capsules';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2016/11/23/15/03/medications-1853400_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/9C27B0/FFFFFF?text=Syrup';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2016/12/05/19/49/syringe-1884784_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/FF5722/FFFFFF?text=Cream';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2020/12/15/15/36/gel-capsules-5834023_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/607D8B/FFFFFF?text=Inhaler';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2017/05/23/21/01/jar-2338584_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/795548/FFFFFF?text=Bandages';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2019/09/22/19/52/pharmacy-4496869_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/E91E63/FFFFFF?text=Vitamins';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2014/11/14/09/09/pills-530373_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/673AB7/FFFFFF?text=Pain+Relief';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2020/02/25/14/38/pharmacy-4879052_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/00BCD4/FFFFFF?text=Cold+Meds';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2016/10/10/13/20/drugs-1728381_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/8BC34A/FFFFFF?text=Allergy';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2018/07/15/12/52/injection-3539566_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/FFC107/333333?text=Digestion';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop The Look Design</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom font for better resemblance */
+      body {
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0; /* Light background for the page */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="relative w-full bg-white shadow-lg rounded-2xl overflow-hidden">
+      <!-- Main grid container for images -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-3 md:gap-5 md:p-5">
+        <!-- Image 1: Top Left -->
+        <div
+          class="relative w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] rounded-xl overflow-hidden group"
+        >
+          <img
+            src="https://img.freepik.com/free-photo/empty-drugstore-with-bottles-packages-full-with-medicaments-retail-shop-shelves-with-pharmaceutical-products-pharmacy-space-filled-with-medical-drugs-pills-vitamins-boxes_482257-62215.jpg?uid=R204243280&ga=GA1.1.1597814359.1740476207&semt=ais_hybrid&w=740"
+            alt="Pharmacy Interior 1"
+            class="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+            onerror="this.onerror=null; this.src='https://placehold.co/800x600/b0e0e6/2a52be?text=Error';"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl"
+          ></div>
+        </div>
+
+        <!-- Image 2: Top Right -->
+        <div
+          class="relative w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] rounded-xl overflow-hidden group"
+        >
+          <img
+            src="https://img.freepik.com/premium-photo/pharmacist-writing-note-pad-pharmacy_1048944-13123542.jpg?uid=R204243280&ga=GA1.1.1597814359.1740476207&semt=ais_hybrid&w=740"
+            alt="Pharmacist 2"
+            class="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+            onerror="this.onerror=null; this.src='https://placehold.co/800x600/add8e6/4682b4?text=Error';"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl"
+          ></div>
+        </div>
+
+        <!-- Image 3: Bottom Left -->
+        <div
+          class="relative w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] rounded-xl overflow-hidden group"
+        >
+          <img
+            src="https://img.freepik.com/premium-photo/diverse-customers-paying-medicaments-drugs-with-mobile-phone-nfc-smartwatch-credit-card-pharmacy-counter-buying-pharmaceutical-healthcare-products-vitamins-drugstore_482257-52943.jpg?uid=R204243280&ga=GA1.1.1597814359.1740476207&semt=ais_hybrid&w=740"
+            alt="Shop Layout 3"
+            class="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+            onerror="this.onerror=null; this.src='https://placehold.co/800x600/87ceeb/6a5acd?text=Error';"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl"
+          ></div>
+        </div>
+
+        <!-- Image 4: Bottom Right -->
+        <div
+          class="relative w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] rounded-xl overflow-hidden group"
+        >
+          <img
+            src="https://img.freepik.com/free-photo/medium-shot-pharmacist-helping-patient_23-2150348171.jpg?uid=R204243280&ga=GA1.1.1597814359.1740476207&semt=ais_hybrid&w=740"
+            alt="Customer Shopping 4"
+            class="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+            onerror="this.onerror=null; this.src='https://placehold.co/800x600/6495ed/7b68ee?text=Error';"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Central "SHOP THE LOOK" overlay -->
+      <div
+        class="absolute inset-0 flex items-center justify-center pointer-events-none"
+      >
+        <div
+          class="bg-white flex items-center justify-center p-6 md:p-8 lg:p-10 rounded-full shadow-xl"
+          style="width: min(70vw, 300px); height: min(70vw, 300px)"
+        >
+          <p
+            class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold italic text-gray-800 text-center select-none leading-tight"
+          >
+            SHOP THE LOOK
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
