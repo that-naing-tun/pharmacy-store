@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pharmacy Store</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine.js for dropdown behavior -->
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- Inter font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* body {
+        font-family: "Inter", sans-serif;
+        background-color: #f7fafc;
+      } */
+
+      @keyframes marquee {
+        0% {
+          transform: translateX(100%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      .animate-marquee {
+        animation: marquee 2s linear infinite;
+        display: inline-block;
+      }
+
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(to top right, #e0f2f7, #a7d9ee);
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      #typewriter::after {
+        content: "";
+        display: inline-block;
+        width: 1ch;
+        height: 1em;
+        vertical-align: bottom;
+        border-right: 2px solid green;
+        animation: blink 0.7s infinite;
+        margin-left: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="min-h-screen flex flex-col">
+      <!-- Header -->
+      <header class="bg-white shadow-md py-4 px-4 md:px-8">
+        <div
+          class="max-w-8xl mx-auto flex items-center justify-between space-x-6"
+        >
+          <!-- Logo -->
+          <a href="#" class="flex items-center space-x-2 shrink-0">
+            <img src="logo.png" alt="Pharmacy Logo" class="h-10 w-auto" />
+          </a>
+
+          <!-- Sliding shop name -->
+          <div class="hidden md:block flex-grow overflow-hidden relative">
+            <div
+              id="typewriter"
+              class="text-green-600 font-bold text-lg select-none whitespace-nowrap"
+            ></div>
+          </div>
+
+          <!-- Search -->
+          <div
+            class="flex-shrink-0 w-full mx-4"
+            style="min-width: 0; max-width: 640px"
+          >
+            <div class="relative flex items-center">
+              <input
+                type="text"
+                placeholder="Search for medicine, brands..."
+                class="w-full py-2 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 pr-10 bg-gray-100"
+              />
+              <button
+                class="absolute right-0 top-0 mt-2 mr-3 text-gray-500"
+                aria-label="Search"
+              >
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right-side Icons -->
+          <nav class="flex items-center space-x-8 shrink-0">
+            <!-- Account Dropdown -->
+            <div
+              x-data="{ open: false }"
+              class="relative"
+              @keydown.escape="open = false"
+            >
+              <div
+                @click="open = !open"
+                :class="[
+                  'flex items-center gap-3 px-4 py-2 rounded-full cursor-pointer transition border',
+                  open
+                    ? 'bg-white border-green-500 ring-2 ring-green-400'
+                    : 'bg-gray-100 border-transparent hover:bg-gray-200',
+                ]"
+              >
+                <div
+                  class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-blue-900 flex items-center justify-center text-white"
+                >
+                  <i class="fas fa-user"></i>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-semibold text-sm">Elena M.</span>
+                  <span class="text-green-500 text-xs font-medium">Online</span>
+                </div>
+                <i
+                  class="fas fa-chevron-down text-gray-500 transition duration-300"
+                  :class="{ 'rotate-180': open }"
+                ></i>
+              </div>
+
+              <!-- Dropdown Menu -->
+              <div
+                x-show="open"
+                @click.away="open = false"
+                x-transition
+                class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg z-50"
+              >
+                <ul class="py-2 text-sm text-gray-700">
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                  >
+                    <i class="fas fa-user-circle"></i> My Profile
+                  </li>
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                  >
+                    <i class="fas fa-cog"></i> Account Settings
+                  </li>
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                  >
+                    <i class="fas fa-bell"></i> Notifications
+                  </li>
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                  >
+                    <i class="fas fa-credit-card"></i> Billing
+                  </li>
+                  <hr class="my-2 border-t" />
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                  >
+                    <i class="fas fa-globe"></i> Language: English
+                  </li>
+                  <hr class="my-2 border-t" />
+                  <li
+                    class="px-4 py-2 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+                  >
+                    <i class="fas fa-sign-out-alt"></i> Sign Out
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="h-6 border-l border-black"></div>
+
+            <!-- Cart -->
+            <a href="#" class="text-gray-700 hover:text-green-600 rounded-lg">
+              <i class="fas fa-shopping-cart text-2xl"></i>
+            </a>
+
+            <!-- Divider -->
+            <div class="h-6 border-l border-black"></div>
+
+            <!-- Wishlist -->
+            <a href="#" class="text-gray-700 hover:text-green-600 rounded-lg">
+              <i class="fas fa-heart text-2xl"></i>
+            </a>
+          </nav>
+        </div>
+
+        <!-- Mobile Categories -->
+        <div class="md:hidden mt-4 text-center">
+          <a href="#" class="text-gray-700 hover:text-green-600 mx-2 rounded-lg"
+            >All Categories</a
+          >
+        </div>
+      </header>
+
+      <!-- Background Elements -->
+      <div class="absolute inset-0 pointer-events-none z-0">
+        <!-- Hexagons -->
+        <svg
+          class="absolute opacity-20 fill-[#90caf9] w-[150px] h-[150px] top-[15%] left-[20%]"
+          viewBox="0 0 100 86.6"
+          aria-hidden="true"
+        >
+          <polygon points="50,0 100,25 100,75 50,100 0,75 0,25" />
+        </svg>
+
+        <svg
+          class="absolute opacity-20 fill-[#90caf9] w-[180px] h-[180px] bottom-[10%] right-[25%]"
+          viewBox="0 0 100 86.6"
+          aria-hidden="true"
+        >
+          <polygon points="50,0 100,25 100,75 50,100 0,75 0,25" />
+        </svg>
+
+        <svg
+          class="absolute opacity-20 fill-[#90caf9] w-[100px] h-[100px] top-[60%] left-[10%]"
+          viewBox="0 0 100 86.6"
+          aria-hidden="true"
+        >
+          <polygon points="50,0 100,25 100,75 50,100 0,75 0,25" />
+        </svg>
+
+        <!-- Molecular Nodes -->
+        <div
+          class="absolute opacity-15 bg-[#64b5f6] rounded-full w-10 h-10 top-1/4 left-1/4"
+        ></div>
+        <div
+          class="absolute opacity-15 bg-[#64b5f6] rounded-full w-8 h-8 top-1/3 left-1/2"
+        ></div>
+        <div
+          class="absolute opacity-15 bg-[#64b5f6] rounded-full w-12 h-12 bottom-1/4 right-1/4"
+        ></div>
+
+        <!-- Molecular Lines -->
+        <div
+          class="absolute opacity-10 bg-[#42a5f5] w-px h-16 origin-top-left rotate-45 top-[27%] left-[26%]"
+        ></div>
+        <div
+          class="absolute opacity-10 bg-[#42a5f5] w-px h-20 origin-top-left rotate-[120deg] top-[36%] left-[51%]"
+        ></div>
+        <div
+          class="absolute opacity-10 bg-[#42a5f5] w-px h-24 origin-top-left rotate-[300deg] bottom-[26%] right-[26%]"
+        ></div>
+      </div>
+
+      <!-- Hero Slider Section -->
+      <section
+        id="hero-slider-section"
+        class="relative w-screen h-[500px] z-10 select-none"
+        tabindex="0"
+      >
+        <div id="image-slider" class="relative w-full h-full overflow-hidden">
+          <img
+            src="https://cdn.pixabay.com/photo/2021/08/19/09/09/medicine-6557489_1280.jpg"
+            alt="Turquoise Capsule 1"
+            class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out slider-image"
+          />
+          <img
+            src="https://cdn.pixabay.com/photo/2023/10/01/14/40/medicine-8287535_1280.jpg"
+            alt="Medical Pills 2"
+            class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out slider-image"
+          />
+          <img
+            src="https://cdn.pixabay.com/photo/2015/10/22/14/05/tablets-1001224_1280.jpg"
+            alt="Blue Capsules 3"
+            class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out slider-image"
+          />
+          <img
+            src="https://cdn.pixabay.com/photo/2014/05/12/12/57/medications-342456_1280.jpg"
+            alt="Assorted Pills 4"
+            class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out slider-image"
+          />
+          <img
+            src="https://cdn.pixabay.com/photo/2016/04/14/12/15/diet-pills-1328799_1280.jpg"
+            alt="Pill Bottles 5"
+            class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-in-out slider-image"
+          />
+        </div>
+
+        <!-- Left Arrow -->
+        <button
+          id="prev-btn"
+          aria-label="Previous slide"
+          class="absolute top-1/2 left-6 -translate-y-1/2 bg-white bg-opacity-30 hover:bg-opacity-70 text-gray-700 hover:text-gray-900 rounded-full p-3 shadow-md transition"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+
+        <!-- Right Arrow -->
+        <button
+          id="next-btn"
+          aria-label="Next slide"
+          class="absolute top-1/2 right-6 -translate-y-1/2 bg-white bg-opacity-30 hover:bg-opacity-70 text-gray-700 hover:text-gray-900 rounded-full p-3 shadow-md transition"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
+
+        <!-- Text Overlay -->
+        <div class="absolute top-5 left-0 right-0 text-center px-4 z-20">
+          <p
+            class="text-green-600 text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-[2px_2px_3px_rgba(0,0,0,0.3)]"
+          >
+            Innovating for a healthier tomorrow.
+          </p>
+        </div>
+
+        <!-- Slider Dots -->
+        <div
+          id="slider-dots"
+          class="absolute bottom-8 left-0 right-0 flex justify-center space-x-3 z-20"
+        ></div>
+      </section>
+
+      <!-- info section -->
+      <section
+        class="flex flex-wrap justify-around items-start gap-8 py-10 px-4 border-t border-gray-100 bg-white"
+      >
+        <div class="flex gap-4 max-w-xs items-center">
+          <i class="fas fa-truck text-blue-500 text-2xl"></i>
+          <div>
+            <h4 class="text-sm font-bold">FREE DELIVERY FROM $250</h4>
+            <p class="text-xs text-gray-600">
+              We bring your medicines to your door.
+            </p>
+          </div>
+        </div>
+        <div class="flex gap-4 max-w-xs items-center">
+          <i class="fas fa-stethoscope text-blue-500 text-2xl"></i>
+          <div>
+            <h4 class="text-sm font-bold">PROFESSIONAL SUPPORT</h4>
+            <p class="text-xs text-gray-600">Ask our pharmacists anytime.</p>
+          </div>
+        </div>
+        <div class="flex gap-4 max-w-xs items-center">
+          <i class="fas fa-hand-holding-medical text-blue-500 text-2xl"></i>
+          <div>
+            <h4 class="text-sm font-bold">TRUSTED PRODUCTS</h4>
+            <p class="text-xs text-gray-600">
+              Only verified and approved meds.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Add To Cart Section -->
+      <main
+        class="flex-grow flex flex-col lg:flex-row px-4 md:px-8 py-8 relative z-10"
+      >
+        <!-- Left Sidebar -->
+        <aside
+          class="w-full lg:w-1/4 bg-white p-6 rounded-2xl shadow-lg lg:mr-8 mb-8 lg:mb-0"
+        >
+          <h2
+            class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200"
+          >
+            All Categories
+          </h2>
+          <ul class="space-y-3 mb-6 text-gray-700">
+            <!-- Added transition and hover:translate-x-2 for doctor names -->
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> DR.DAREN
+              BODE II
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> DR.LETA
+              FAHEY
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> KILYEY
+              SAUER
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> MR.JARRETT
+              SPENCER
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> SCOTTIE
+              RYAN
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> THERRY
+              WOLLF
+            </li>
+          </ul>
+
+          <h2
+            class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200 mt-6"
+          >
+            Price
+          </h2>
+          <div class="flex items-center space-x-3 mb-6">
+            <span class="text-gray-700 font-medium">Min:</span>
+            <input
+              type="number"
+              placeholder="Min"
+              class="w-24 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+            />
+            <span class="text-gray-700 font-medium">Max:</span>
+            <input
+              type="number"
+              placeholder="Max"
+              class="w-24 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+            />
+          </div>
+          <button
+            class="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300 shadow-md"
+          >
+            Apply
+          </button>
+
+          <h2
+            class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200 mt-6"
+          >
+            Types
+          </h2>
+          <ul class="space-y-3 text-gray-700">
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> Decogen
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> Pacagen
+            </li>
+            <li
+              class="flex items-center cursor-pointer hover:text-blue-600 transition-transform duration-200 transform hover:translate-x-2"
+            >
+              <i class="fas fa-arrow-right text-green-500 mr-2"></i> PharmaGen
+            </li>
+            <!-- Add more types as needed -->
+          </ul>
+        </aside>
+
+        <!-- Product Listing Area -->
+        <section class="flex-grow bg-white p-6 rounded-2xl shadow-lg">
+          <!-- Category Tabs - Colors updated -->
+          <div class="flex flex-wrap gap-3 mb-6">
+            <button
+              class="px-6 py-2 rounded-full bg-blue-600 text-white font-semibold shadow-md hover:bg-blue-700 transition"
+            >
+              All
+            </button>
+            <button
+              class="px-6 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition"
+            >
+              New Arrival
+            </button>
+            <button
+              class="px-6 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition"
+            >
+              Best Seller
+            </button>
+            <button
+              class="px-6 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition"
+            >
+              Promotions
+            </button>
+            <button
+              class="px-6 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition"
+            >
+              Featured Product
+            </button>
+          </div>
+
+          <!-- Product Grid -->
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+          >
+            <!-- Product Card Example (repeat as needed) -->
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2016/02/07/16/35/world-1185076_1280.png"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/F44336/FFFFFF?text=Pills';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <!-- Empty star -->
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2014/02/03/11/47/medications-257346_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/F44336/FFFFFF?text=Pills';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <!-- Empty star -->
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Repeat for other product cards (11 more times based on image) -->
+            <!-- You can dynamically generate these with JavaScript in a real application -->
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2016/04/14/12/17/diet-pills-1328802_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/2196F3/FFFFFF?text=Tablets';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2016/07/24/21/01/thermometer-1539191_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/FFEB3B/333333?text=Capsules';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2016/11/23/15/03/medications-1853400_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/9C27B0/FFFFFF?text=Syrup';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2020/12/15/15/36/gel-capsules-5834023_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/607D8B/FFFFFF?text=Inhaler';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2017/05/23/21/01/jar-2338584_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/795548/FFFFFF?text=Bandages';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2019/09/22/19/52/pharmacy-4496869_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/E91E63/FFFFFF?text=Vitamins';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2014/11/14/09/09/pills-530373_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/673AB7/FFFFFF?text=Pain+Relief';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2020/02/25/14/38/pharmacy-4879052_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/00BCD4/FFFFFF?text=Cold+Meds';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2016/10/10/13/20/drugs-1728381_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/8BC34A/FFFFFF?text=Allergy';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="bg-white rounded-xl shadow-md p-4 flex flex-col items-center text-center transition transform hover:scale-105 hover:shadow-xl"
+            >
+              <img
+                src="https://cdn.pixabay.com/photo/2018/07/15/12/52/injection-3539566_1280.jpg"
+                alt="Product Image"
+                class="w-full h-32 object-cover rounded-lg mb-4"
+                onerror="this.src='https://placehold.co/150x150/FFC107/333333?text=Digestion';"
+              />
+              <h3 class="font-bold text-lg text-gray-800 mb-2">Decogen</h3>
+              <div class="star-rating mb-3 text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div class="flex space-x-3 mb-2">
+                <button
+                  class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                  aria-label="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                  aria-label="Add to Wishlist"
+                >
+                  <i class="fas fa-heart"></i>
+                </button>
+                <button
+                  class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                  aria-label="View Product"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Best Sellers Section -->
+      <div
+        class="relative w-[97%] mx-auto bg-white p-3 md:p-5 rounded-2xl shadow-xl border border-black"
+      >
+        <!-- Outer border for the entire section, using pointer-events-none to allow clicks through -->
+        <div
+          class="absolute inset-0 border-2 border-black rounded-2xl pointer-events-none"
+        ></div>
+
+        <div
+          class="flex flex-col lg:flex-row items-center lg:items-stretch justify-between gap-8"
+        >
+          <!-- Left Section: Best Sellers Text and Button - Centered -->
+          <div
+            class="flex-shrink-0 flex flex-col items-center justify-center text-center p-4"
+          >
+            <h2
+              class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 tracking-tight"
+            >
+              Best Sellers
+            </h2>
+            <p
+              class="text-green-600 text-lg md:text-xl font-medium italic mb-8"
+            >
+              "This is the best-selling medicine"
+            </p>
+            <button
+              class="bg-black text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-105"
+            >
+              VIEW ALL PRODUCT
+            </button>
+          </div>
+
+          <!-- Right Section: Product Grid with integrated arrows (no horizontal scrolling) -->
+          <div
+            class="relative flex-grow w-full flex items-center justify-center py-4"
+          >
+            <!-- Navigation Arrows -->
+            <button
+              id="scrollLeftBtn"
+              class="absolute left-0 -ml-1 md:-ml-2 bg-black text-white rounded-full p-3 text-2xl md:text-3xl z-20 shadow-lg hover:bg-gray-800 transition-colors duration-300 transform -translate-y-1/2 top-1/2 cursor-pointer"
+            >
+              <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <!-- Product Grid (always shows 4 items, content changes) -->
+            <div
+              id="productGrid"
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full px-12 md:px-14 lg:px-16"
+            >
+              <!-- Product Cards - These will be dynamically updated by JavaScript -->
+              <div
+                class="bg-white rounded-xl shadow-md p-4 transform hover:scale-105 transition-transform duration-300 flex flex-col items-center text-center product-card"
+              >
+                <img
+                  src=""
+                  alt="Product Image"
+                  class="w-full h-32 object-cover rounded-lg mb-4 border border-gray-200 product-img"
+                />
+                <h3
+                  class="font-bold text-lg text-gray-800 mb-2 product-title"
+                ></h3>
+                <div
+                  class="star-rating mb-3 text-yellow-400 product-stars"
+                ></div>
+                <div class="flex space-x-3 mb-2">
+                  <button
+                    class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                    aria-label="Add to Cart"
+                  >
+                    <i class="fas fa-shopping-cart"></i>
+                  </button>
+                  <button
+                    class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                    aria-label="Add to Wishlist"
+                  >
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button
+                    class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                    aria-label="View Product"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <div
+                class="bg-white rounded-xl shadow-md p-4 transform hover:scale-105 transition-transform duration-300 flex flex-col items-center text-center product-card"
+              >
+                <img
+                  src=""
+                  alt="Product Image"
+                  class="w-full h-32 object-cover rounded-lg mb-4 border border-gray-200 product-img"
+                />
+                <h3
+                  class="font-bold text-lg text-gray-800 mb-2 product-title"
+                ></h3>
+                <div
+                  class="star-rating mb-3 text-yellow-400 product-stars"
+                ></div>
+                <div class="flex space-x-3 mb-2">
+                  <button
+                    class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                    aria-label="Add to Cart"
+                  >
+                    <i class="fas fa-shopping-cart"></i>
+                  </button>
+                  <button
+                    class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                    aria-label="Add to Wishlist"
+                  >
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button
+                    class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                    aria-label="View Product"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <div
+                class="bg-white rounded-xl shadow-md p-4 transform hover:scale-105 transition-transform duration-300 flex flex-col items-center text-center product-card"
+              >
+                <img
+                  src=""
+                  alt="Product Image"
+                  class="w-full h-32 object-cover rounded-lg mb-4 border border-gray-200 product-img"
+                />
+                <h3
+                  class="font-bold text-lg text-gray-800 mb-2 product-title"
+                ></h3>
+                <div
+                  class="star-rating mb-3 text-yellow-400 product-stars"
+                ></div>
+                <div class="flex space-x-3 mb-2">
+                  <button
+                    class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                    aria-label="Add to Cart"
+                  >
+                    <i class="fas fa-shopping-cart"></i>
+                  </button>
+                  <button
+                    class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                    aria-label="Add to Wishlist"
+                  >
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button
+                    class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                    aria-label="View Product"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <div
+                class="bg-white rounded-xl shadow-md p-4 transform hover:scale-105 transition-transform duration-300 flex flex-col items-center text-center product-card"
+              >
+                <img
+                  src=""
+                  alt="Product Image"
+                  class="w-full h-32 object-cover rounded-lg mb-4 border border-gray-200 product-img"
+                />
+                <h3
+                  class="font-bold text-lg text-gray-800 mb-2 product-title"
+                ></h3>
+                <div
+                  class="star-rating mb-3 text-yellow-400 product-stars"
+                ></div>
+                <div class="flex space-x-3 mb-2">
+                  <button
+                    class="p-2 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition"
+                    aria-label="Add to Cart"
+                  >
+                    <i class="fas fa-shopping-cart"></i>
+                  </button>
+                  <button
+                    class="p-2 rounded-full bg-red-100 text-red-700 hover:bg-red-200 transition"
+                    aria-label="Add to Wishlist"
+                  >
+                    <i class="fas fa-heart"></i>
+                  </button>
+                  <button
+                    class="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+                    aria-label="View Product"
+                  >
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <button
+              id="scrollRightBtn"
+              class="absolute right-0 -mr-1 md:-mr-2 bg-black text-white rounded-full p-3 text-2xl md:text-3xl z-20 shadow-lg hover:bg-gray-800 transition-colors duration-300 transform -translate-y-1/2 top-1/2 cursor-pointer"
+            >
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop Design Section -->
+      <div
+        class="relative w-full bg-white shadow-lg rounded-2xl overflow-hidden"
+      >
+        <!-- Main grid container for images -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-3 md:gap-5 md:p-5">
+          <!-- Image 1: Top Left -->
+          <div
+            class="relative w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] rounded-xl overflow-hidden group"
+          >
+            <img
+              src="https://img.freepik.com/free-photo/empty-drugstore-with-bottles-packages-full-with-medicaments-retail-shop-shelves-with-pharmaceutical-products-pharmacy-space-filled-with-medical-drugs-pills-vitamins-boxes_482257-62215.jpg?uid=R204243280&ga=GA1.1.1597814359.1740476207&semt=ais_hybrid&w=740"
+              alt="Pharmacy Interior 1"
+              class="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+              onerror="this.onerror=null; this.src='https://placehold.co/800x600/b0e0e6/2a52be?text=Error';"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl"
+            ></div>
+          </div>
+
+          <!-- Image 2: Top Right -->
+          <div
+            class="relative w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] rounded-xl overflow-hidden group"
+          >
+            <img
+              src="https://img.freepik.com/premium-photo/pharmacist-writing-note-pad-pharmacy_1048944-13123542.jpg?uid=R204243280&ga=GA1.1.1597814359.1740476207&semt=ais_hybrid&w=740"
+              alt="Pharmacist 2"
+              class="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+              onerror="this.onerror=null; this.src='https://placehold.co/800x600/add8e6/4682b4?text=Error';"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl"
+            ></div>
+          </div>
+
+          <!-- Image 3: Bottom Left -->
+          <div
+            class="relative w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] rounded-xl overflow-hidden group"
+          >
+            <img
+              src="https://img.freepik.com/premium-photo/diverse-customers-paying-medicaments-drugs-with-mobile-phone-nfc-smartwatch-credit-card-pharmacy-counter-buying-pharmaceutical-healthcare-products-vitamins-drugstore_482257-52943.jpg?uid=R204243280&ga=GA1.1.1597814359.1740476207&semt=ais_hybrid&w=740"
+              alt="Shop Layout 3"
+              class="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+              onerror="this.onerror=null; this.src='https://placehold.co/800x600/87ceeb/6a5acd?text=Error';"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl"
+            ></div>
+          </div>
+
+          <!-- Image 4: Bottom Right -->
+          <div
+            class="relative w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] rounded-xl overflow-hidden group"
+          >
+            <img
+              src="https://img.freepik.com/free-photo/medium-shot-pharmacist-helping-patient_23-2150348171.jpg?uid=R204243280&ga=GA1.1.1597814359.1740476207&semt=ais_hybrid&w=740"
+              alt="Customer Shopping 4"
+              class="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+              onerror="this.onerror=null; this.src='https://placehold.co/800x600/6495ed/7b68ee?text=Error';"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Central "SHOP THE LOOK" overlay -->
+        <div
+          class="absolute inset-0 flex items-center justify-center pointer-events-none"
+        >
+          <div
+            class="bg-white flex items-center justify-center p-6 md:p-8 lg:p-10 rounded-full shadow-xl"
+            style="width: min(70vw, 300px); height: min(70vw, 300px)"
+          >
+            <p
+              class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold italic text-gray-800 text-center select-none leading-tight"
+            >
+              SHOP THE LOOK
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const scrollLeftBtn = document.getElementById("scrollLeftBtn");
+          const scrollRightBtn = document.getElementById("scrollRightBtn");
+          const productCards = document.querySelectorAll(".product-card"); // Get all 4 fixed product cards
+
+          // Full list of products
+          const allProducts = [
+            {
+              imageSrc:
+                "https://cdn.pixabay.com/photo/2020/02/25/14/38/pharmacy-4879052_1280.jpg",
+              title: "Decogen Pro",
+              stars: 4,
+              fallbackImg:
+                "https://placehold.co/150x150/00BCD4/FFFFFF?text=Cold+Meds",
+            },
+            {
+              imageSrc:
+                "https://cdn.pixabay.com/photo/2016/10/10/13/20/drugs-1728381_1280.jpg",
+              title: "Decogen Ultra",
+              stars: 5,
+              fallbackImg:
+                "https://placehold.co/150x150/8BC34A/FFFFFF?text=Allergy",
+            },
+            {
+              imageSrc:
+                "https://cdn.pixabay.com/photo/2014/11/14/09/09/pills-530373_1280.jpg",
+              title: "Decogen Max",
+              stars: 4,
+              fallbackImg:
+                "https://placehold.co/150x150/673AB7/FFFFFF?text=Pain+Relief",
+            },
+            {
+              imageSrc:
+                "https://cdn.pixabay.com/photo/2017/05/23/21/01/jar-2338584_1280.jpg",
+              title: "Decogen Forte",
+              stars: 3,
+              fallbackImg:
+                "https://placehold.co/150x150/795548/FFFFFF?text=Bandages",
+            },
+            {
+              imageSrc:
+                "https://cdn.pixabay.com/photo/2016/11/23/15/03/medications-1853400_1280.jpg",
+              title: "Decogen Xtra",
+              stars: 5,
+              fallbackImg:
+                "https://placehold.co/150x150/9C27B0/FFFFFF?text=Syrup",
+            },
+            {
+              imageSrc:
+                "https://cdn.pixabay.com/photo/2016/07/24/21/01/thermometer-1539191_1280.jpg",
+              title: "Decogen Plus",
+              stars: 4,
+              fallbackImg:
+                "https://placehold.co/150x150/FFEB3B/333333?text=Capsules",
+            },
+            {
+              imageSrc:
+                "https://cdn.pixabay.com/photo/2016/02/07/16/35/world-1185076_1280.png",
+              title: "Decogen Prime",
+              stars: 3,
+              fallbackImg:
+                "https://placehold.co/150x150/F44336/FFFFFF?text=Pills",
+            },
+            {
+              imageSrc:
+                "https://cdn.pixabay.com/photo/2016/12/05/19/49/syringe-1884784_1280.jpg",
+              title: "Decogen Fresh",
+              stars: 4,
+              fallbackImg:
+                "https://placehold.co/150x150/FF9800/FFFFFF?text=Supplements",
+            },
+            {
+              imageSrc:
+                "https://cdn.pixabay.com/photo/2014/02/03/11/47/medications-257346_1280.jpg",
+              title: "Decogen Calm",
+              stars: 5,
+              fallbackImg:
+                "https://placehold.co/150x150/009688/FFFFFF?text=Relax",
+            },
+          ];
+
+          let displayStartIndex = 0; // Tracks the starting index of the products to display
+
+          // Function to update the content of the visible product cards
+          const updateProductDisplay = () => {
+            productCards.forEach((card, index) => {
+              // Calculate the actual product index, handling wrapping
+              const productIndex =
+                (displayStartIndex + index) % allProducts.length;
+              const product = allProducts[productIndex];
+
+              // Update image
+              const imgElement = card.querySelector(".product-img");
+              if (imgElement) {
+                imgElement.src = product.imageSrc;
+                imgElement.alt = product.title;
+                // Use the fallback image from the product data
+                imgElement.onerror = `this.src='${product.fallbackImg}';`;
+              }
+
+              // Update title
+              const titleElement = card.querySelector(".product-title");
+              if (titleElement) {
+                titleElement.textContent = product.title;
+              }
+
+              // Update stars
+              const starsContainer = card.querySelector(".product-stars");
+              if (starsContainer) {
+                starsContainer.innerHTML = ""; // Clear existing stars
+                for (let i = 0; i < 5; i++) {
+                  const starIcon = document.createElement("i");
+                  starIcon.classList.add("fas", "mr-1");
+                  if (i < product.stars) {
+                    starIcon.classList.add("fa-star", "text-yellow-500");
+                  } else {
+                    starIcon.classList.add("far", "fa-star", "text-gray-400");
+                  }
+                  starsContainer.appendChild(starIcon);
+                }
+              }
+            });
+          };
+
+          // Event listener for the right arrow button
+          scrollRightBtn.addEventListener("click", () => {
+            displayStartIndex = (displayStartIndex + 1) % allProducts.length;
+            updateProductDisplay();
+          });
+
+          // Event listener for the left arrow button
+          scrollLeftBtn.addEventListener("click", () => {
+            displayStartIndex =
+              (displayStartIndex - 1 + allProducts.length) % allProducts.length; // Ensure positive index for negative wrap
+            updateProductDisplay();
+          });
+
+          // Initial display of products on page load
+          updateProductDisplay();
+        });
+      </script>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const images = document.querySelectorAll(".slider-image");
+          const dotsContainer = document.getElementById("slider-dots");
+          const prevBtn = document.getElementById("prev-btn");
+          const nextBtn = document.getElementById("next-btn");
+          let currentIndex = 0;
+          const slideInterval = 4000;
+          let autoSlide;
+
+          // Create dots dynamically
+          images.forEach((_, index) => {
+            const dot = document.createElement("div");
+            dot.classList.add(
+              "w-4",
+              "h-4",
+              "rounded-full",
+              "shadow-md",
+              "cursor-pointer",
+              "hover:scale-110",
+              "transition-transform",
+              "duration-200",
+              "bg-white"
+            );
+            dot.dataset.index = index;
+            dotsContainer.appendChild(dot);
+          });
+
+          const dots = document.querySelectorAll("#slider-dots div");
+
+          function showSlide(index) {
+            images.forEach((img) => img.classList.remove("opacity-100"));
+            images.forEach((img) => img.classList.add("opacity-0"));
+
+            dots.forEach((dot) => {
+              dot.classList.remove("bg-yellow-400");
+              dot.classList.add("bg-white");
+            });
+
+            images[index].classList.remove("opacity-0");
+            images[index].classList.add("opacity-100");
+
+            dots[index].classList.remove("bg-white");
+            dots[index].classList.add("bg-yellow-400");
+
+            currentIndex = index;
+          }
+
+          function nextSlideFunc() {
+            currentIndex = (currentIndex + 1) % images.length;
+            showSlide(currentIndex);
+          }
+
+          function prevSlideFunc() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            showSlide(currentIndex);
+          }
+
+          function resetAutoSlide() {
+            clearInterval(autoSlide);
+            autoSlide = setInterval(nextSlideFunc, slideInterval);
+          }
+
+          // Initial slide
+          showSlide(currentIndex);
+
+          // Auto slide
+          autoSlide = setInterval(nextSlideFunc, slideInterval);
+
+          // Dot click event
+          dots.forEach((dot) => {
+            dot.addEventListener("click", (e) => {
+              resetAutoSlide();
+              showSlide(parseInt(e.target.dataset.index));
+            });
+          });
+
+          // Buttons click events
+          prevBtn.addEventListener("click", () => {
+            resetAutoSlide();
+            prevSlideFunc();
+          });
+
+          nextBtn.addEventListener("click", () => {
+            resetAutoSlide();
+            nextSlideFunc();
+          });
+
+          // Keyboard arrow key navigation
+          document
+            .getElementById("hero-slider-section")
+            .addEventListener("keydown", (e) => {
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                resetAutoSlide();
+                prevSlideFunc();
+              } else if (e.key === "ArrowRight") {
+                e.preventDefault();
+                resetAutoSlide();
+                nextSlideFunc();
+              }
+            });
+        });
+      </script>
+
+      <!-- Footer group -->
+      <footer
+        class="w-full py-8 px-4 md:px-8 lg:px-16 rounded-t-2xl shadow-inner bg-gray-200 text-gray-800 mt-auto"
+      >
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 lg:gap-16"
+        >
+          <!-- Section 1 -->
+          <div class="flex flex-col space-y-4">
+            <h3 class="text-xl font-bold uppercase text-gray-900 mb-2">
+              Pharmacy Store
+            </h3>
+            <p class="text-sm italic text-gray-600 leading-relaxed">
+              "Your trusted health partner, caring for your well-being one
+              prescription at a time."
+            </p>
+            <div class="space-y-3 pt-4 text-sm">
+              <a
+                href="#"
+                class="block text-gray-600 hover:text-blue-600 transition"
+                >About Us</a
+              >
+              <a
+                href="#"
+                class="block text-gray-600 hover:text-blue-600 transition"
+                >Reason to Shop</a
+              >
+              <a
+                href="#"
+                class="block text-gray-600 hover:text-blue-600 transition"
+                >What our customers say</a
+              >
+              <a
+                href="#"
+                class="block text-gray-600 hover:text-blue-600 transition"
+                >Meet the team</a
+              >
+              <a
+                href="#"
+                class="block text-gray-600 hover:text-blue-600 transition"
+                >Contact Our Buyers</a
+              >
+            </div>
+            <div class="flex space-x-4 pt-4 justify-center md:justify-start">
+              <img
+                src="payment-footer.png"
+                alt="Trusted"
+                class="h-10 md:h-12 object-contain rounded-md"
+              />
+              <!-- <img
+              src="https://placehold.co/100x60/f0f0f0/333333?text=NORTON SECURED"
+              alt="Norton"
+              class="h-10 md:h-12 object-contain rounded-md"
+            /> -->
+            </div>
+          </div>
+
+          <!-- Section 2 -->
+          <div class="flex flex-col space-y-4">
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Contact Us</h3>
+            <div class="flex items-start space-x-2 pb-2">
+              <i class="fas fa-map-marker-alt text-lg pt-1"></i>
+              <div>
+                <p class="font-semibold text-sm">Address :</p>
+                <p class="text-sm text-gray-600">
+                  No-9, Mahar Boga Street, Hledan, Kamayut Township, Yangon
+                </p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2 pb-2">
+              <i class="fas fa-envelope text-lg"></i>
+              <div>
+                <p class="font-semibold text-sm">Email :</p>
+                <a
+                  href="mailto:thatnaingtun1892000@gmail.com"
+                  class="text-sm text-gray-600 hover:text-blue-600 transition"
+                  >thatnaingtun1892000@gmail.com</a
+                >
+              </div>
+            </div>
+            <div class="flex items-center space-x-2 pb-2">
+              <i class="fas fa-phone-alt text-lg"></i>
+              <div>
+                <p class="font-semibold text-sm">Hotline :</p>
+                <a
+                  href="tel:+959687502811"
+                  class="text-sm text-gray-600 hover:text-blue-600 transition"
+                  >+959687502811</a
+                >
+              </div>
+            </div>
+            <div class="flex items-start space-x-2">
+              <i class="far fa-clock text-lg pt-1"></i>
+              <div>
+                <p class="font-semibold text-sm">Opening Hours :</p>
+                <p class="text-sm text-gray-600">
+                  Monday - Sunday / 08.00AM - 19.00
+                </p>
+                <p class="text-sm text-gray-600">(Except Holidays)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3 -->
+          <div class="flex flex-col space-y-6">
+            <h3 class="text-lg font-bold text-blue-700 mb-2">Newsletter</h3>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              Sign up to our newsletter to get the latest articles, lookbooks,
+              voucher codes direct to your inbox
+            </p>
+            <div class="flex w-full">
+              <input
+                type="email"
+                placeholder="Enter your Email"
+                class="p-3 flex-grow rounded-l-lg border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+              />
+              <button
+                class="bg-gray-800 text-white px-4 py-3 rounded-r-lg hover:bg-gray-700 text-xs"
+              >
+                SUBSCRIBE
+              </button>
+            </div>
+            <h3 class="text-lg font-bold italic mt-4">Follow us on</h3>
+            <div class="flex space-x-4">
+              <a href="#" class="text-blue-500 hover:text-blue-700 transition"
+                ><i class="fab fa-twitter text-2xl"></i
+              ></a>
+              <a href="#" class="text-blue-700 hover:text-blue-900 transition"
+                ><i class="fab fa-facebook text-2xl"></i
+              ></a>
+              <a
+                href="#"
+                class="text-purple-600 hover:text-purple-800 transition"
+                ><i class="fab fa-instagram text-2xl"></i
+              ></a>
+              <a href="#" class="text-red-600 hover:text-red-800 transition"
+                ><i class="fas fa-envelope text-2xl"></i
+              ></a>
+            </div>
+
+            <div class="flex flex-col space-y-4 pt-4">
+              <h3 class="text-lg font-bold text-green-700 mb-2">
+                PAYMENT ACCEPT
+              </h3>
+              <div class="flex flex-wrap gap-3 items-center justify-start">
+                <img
+                  src="https://img.freepik.com/premium-photo/3d-render-paypal-logo-sculpted-from-translucent-blue-acrylic-floating-upward-tilt-neon-blue_1020495-781115.jpg"
+                  alt="PayPal"
+                  class="w-20 h-12 object-contain"
+                />
+                <img
+                  src="https://img.freepik.com/free-vector/realistic-credit-card-design_23-2149126090.jpg"
+                  alt="VISA"
+                  class="w-20 h-12 object-contain"
+                />
+                <img
+                  src="https://img.freepik.com/free-vector/credit-card-payment-concept-landing-page_23-2148319390.jpg"
+                  alt="Pay"
+                  class="w-20 h-12 object-contain"
+                />
+                <img
+                  src="https://img.freepik.com/premium-vector/file-245_773186-973.jpg"
+                  alt="Bank"
+                  class="w-20 h-12 object-contain"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Footerbar -->
+      <footer class="w-full bg-black py-4 text-white text-center">
+        <p class="text-3xl italic font-serif">Health. Trust. Care</p>
+      </footer>
+    </div>
+  </body>
+</html>
+<script>
+  const text = "Shwe Owe Pharmacy Shop And Delivery";
+  const typewriterEl = document.getElementById("typewriter");
+
+  let index = 0;
+  function type() {
+    if (index <= text.length) {
+      typewriterEl.textContent = text.substring(0, index);
+      index++;
+      setTimeout(type, 150);
+    } else {
+      // optional: pause, then restart
+      setTimeout(() => {
+        index = 0;
+        type();
+      }, 2000);
+    }
+  }
+
+  type();
+</script>
